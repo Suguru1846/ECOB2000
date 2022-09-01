@@ -1,0 +1,78 @@
+---
+title: 'Homework #1'
+author: "Suguru Iwashiro"
+date: "2022-08-28"
+output: html_document
+---
+
+## 1. What are the names of the people in your study group?
+John Robison, Safinaz Ali
+
+## 3. Roll the dice 20 times and check that the result was a 6 or not.
+```{r}
+roll20 <-c(6,1,3,1,6,1,6,5,1,3,4,1,3,4,6,1,1,6,1,1,4)
+roll20 == 6
+```
+
+## 4.Replicate the commands given in the lecture notes R Basics for Lecture 1 to do some simple stats on the Household Pulse data. 
+
+```{r}
+x <- 1:50
+w <- 1 + sqrt(x)/2
+example1 <- data.frame(x=x, y= x + rnorm(x)*w)
+attach(example1)
+
+fm <- lm(y ~ x)
+summary(fm)
+lrf <- lowess(x, y)
+plot(x, y)
+lines(x, lrf$y)
+abline(0, 1, lty=3)
+abline(coef(fm))
+detach()
+
+rm(list = ls(all = TRUE)) 
+load("/Users/Suguru/Desktop/Econometrics/Homework/HW1/Household_Pulse_data.RData")
+#glimpse(acs2017_ny) try this later
+Household_Pulse_data[1:10,1:7]
+
+attach(Household_Pulse_data)
+summary(TBIRTH_YEAR[GENID_DESCRIBE == "female"])
+summary(TBIRTH_YEAR[GENID_DESCRIBE == "male"])
+summary(TBIRTH_YEAR[GENID_DESCRIBE == "transgender"])
+summary(TBIRTH_YEAR[GENID_DESCRIBE == "other"])
+summary(TBIRTH_YEAR[GENID_DESCRIBE == "NA"])
+
+mean(TBIRTH_YEAR[GENID_DESCRIBE == "female"])
+sd(TBIRTH_YEAR[GENID_DESCRIBE == "female"])
+
+mean(TBIRTH_YEAR[GENID_DESCRIBE == "male"])
+sd(TBIRTH_YEAR[GENID_DESCRIBE == "male"])
+```
+
+I checked unemployed proportion by race. Asian stays high employed level.
+
+```{r}
+race_anywork <- Household_Pulse_data %>% group_by(RRACE,ANYWORK)
+race_anywork
+white <- race_anywork[race_anywork$RRACE == "White",]
+white
+white_pro <-prop.table(white$n)
+white_pro
+Black<- race_anywork[race_anywork$RRACE == "Black",]
+Black
+black_pro <- prop.table(Black$n)
+black_pro
+Asian<- race_anywork[race_anywork$RRACE == "Asian",]
+Asian
+Asian_pro <- prop.table(Asian$n)
+Asian_pro
+Other<- race_anywork[race_anywork$RRACE == "Other",]
+Other
+Other_pro <- prop.table(Other$n)
+Other_pro
+```
+
+## 5.What you’re being asked to do.
+
+Binormal distribution and expected value. It is unfair or cheating if the result was out of the possibility based on the Confidence Intervals you set up.
