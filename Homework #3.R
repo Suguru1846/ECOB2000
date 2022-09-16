@@ -1,3 +1,5 @@
+#Suguru Iwashiro
+#September 15, 2022
 #Kseniia Huseinova, Holli Tai, Munibul Islam
 
 library(data.table)
