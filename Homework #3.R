@@ -90,3 +90,50 @@ no_kids_restaurant <- df2 %>% group_by(eat_in_restaurant) %>%
   summarize(n = n())
 
 no_kids_restaurant$prop <- prop.table(no_kids_restaurant$n)
+
+#From the class on 9/1 
+age_vac <- subset(Household_Pulse_data, select=c(RECVDVACC,TBIRTH_YEAR))
+age_vac$age <- 2022 - age_vac$TBIRTH_YEAR
+age_vac
+
+age24_down <- age_vac %>% 
+  filter(age < 24)
+
+age25_55 <- age_vac %>% 
+  filter(age > 24 & age <= 55)
+
+age55_up <- age_vac %>% 
+  filter(age > 55)
+
+summary(Household_Pulse_data)
+summary(age24_down)
+summary(age25_55)
+summary(age55_up)
+
+#Age 24 or down
+age24_down_pro <- age24_down %>%
+  group_by(RECVDVACC) %>%
+  summarize(n = n())
+
+age24_down_pro$pro <- prop.table(age24_down_pro$n)
+age24_down_pro
+
+#Age 25 -55
+age25_55_pro <- age25_55 %>%
+  group_by(RECVDVACC) %>%
+  summarize(n = n())
+
+age25_55_pro$pro <- prop.table(age25_55_pro$n)
+age25_55_pro
+
+#Age 55 or more
+age55_up_pro <- age55_up %>%
+  group_by(RECVDVACC) %>%
+  summarize(n = n())
+
+age55_up_pro$pro <- prop.table(age55_up_pro$n)
+age55_up_pro
+
+describe(age25_55)
+describe(age55_up)
+discribes(age55_up)
