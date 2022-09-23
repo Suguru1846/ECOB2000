@@ -1,5 +1,5 @@
 #Suguru Iwashiro
-#September 120, 2022
+#September 22, 2022
 #Munibul Islam, Amira Elmakawy
 
 #In my research, combination of OWNCOST + RENT, HHINCOME + COSTELEC and K = 1 is highest accuracy 78.9%. Second highest is combination of HHINCOME and OWNCOST + RENT and K = 1. Accuracy is 73.04%
