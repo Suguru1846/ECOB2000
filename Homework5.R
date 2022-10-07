@@ -41,7 +41,28 @@ summary(model_temp2)
 plot(model_temp1)
 plot(model_temp2)
 
+
+plot(model_temp1)
+plot(model_temp2)
+
 install.packages("stargazer")
 library(stargazer)
 require(stargazer)
 stargazer(model_temp1, type = "text")
+
+install.packages("AER")
+library(AER)
+
+NNobs <- length(INCTOT)
+
+set.seed(111) 
+graph_obs <- (runif(NNobs) < 0.1) 
+dat_graph <-subset(dat_use,graph_obs)
+
+plot(INCTOT ~ jitter(AGE, factor = 2), pch = 16, col = rgb(0.5, 0.5, 0.5, alpha = 0.2), data = dat_graph)
+plot(INCTOT ~ jitter(AGE, factor = 2), pch = 16, col = rgb(0.5, 0.5, 0.5, alpha = 0.2), ylim = c(0,1000000), data = dat_graph)
+
+to_be_predicted2 <- data.frame(AGE = 25:55, female = 1, AfAm = 1, Asian = 1, white = 1, veteran = 1)
+to_be_predicted2$yhat <- predict(model_temp1, newdata = to_be_predicted2)
+
+lines(yhat ~ female, data = to_be_predicted2)
