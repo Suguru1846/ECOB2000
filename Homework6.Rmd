@@ -1,0 +1,104 @@
+---
+title: "HW6"
+author: "Suguru Iwashiro"
+date: "2022-10-28"
+output: html_document
+---
+### Homework 6
+
+Suguru Iwashiro
+
+For my final project, I would like to examine the pandemic’s economic impact on the general population’s financial situation and on the poverty level. Here are the journals I reviewed: 
+
+
+Title 1: [Effects of the COVID-19 Recession on the US Labor Market: Occupation, Family, and Gender](https://www-jstor-org.ccny-proxy1.libr.ccny.cuny.edu/stable/pdf/27041212.pdf?refreqid=excelsior%3Aee3f4096b09c7887e6293da3989c39c8&ab_segments=0%2Fbasic_search_gsv2%2Fcontrol&origin=)
+
+Data: The National Bureau of Economic Research business cycle dates, Monthly CPS
+
+This is a great journal published by Stefania Albanesi and Jiyeon Kim. The scope of their research is very wide and detailed. They use the regression model and visualization. 
+ 
+
+Title 2: [Income and Poverty in the COVID-19 Pandemic](https://www-jstor-org.ccny-proxy1.libr.ccny.cuny.edu/stable/pdf/26996637.pdf?refreqid=excelsior%3Ab2b90811ba6bc56a63df978def081abb&ab_segments=0%2Fbasic_search_gsv2%2Fcontrol&origin=)
+
+Data: Monthly CPS
+
+This was written by JEEHOON HAN/Zhejiang University, BRUCE D. MEYER/University of Chicago and JAMES X. SULLIVAN/University of Notre Dame to research and analyze the economic impact of COVID-19. They used a 3-month moving average to calculate the percentile of family income from the monthly CPS 2019–2020. 
+
+
+Title 3: [The Effect of COVID-19 on Income Among Households in HUD’s Housing Choice Voucher Program](https://www-jstor-org.ccny-proxy1.libr.ccny.cuny.edu/stable/pdf/26999949.pdf?refreqid=fastly-default%3Ae50fc4a93db6b4fcc5981c3695ecbafb&ab_segments=0%2Fbasic_search_gsv2%2Fcontrol&origin=search-results&acceptTC=1)
+
+Data: HUD’s Public and Indian Housing (PIH) Information Center (PIC) data
+
+This is a very interesting journal that is published by the US Department of Housing and Urban Development. It provides research on the Housing Choice Voucher (HCV) program during the pandemic to examine household income. 
+
+According to their research, 
+
+```
+At the beginning of March, as jobs were lost and the economy weakened, 39 states experienced an increase in the proportion of recertified HCV households with an income decline. (The Effect of COVID-19 on Income Among Households in HUD's Housing Choice Voucher Program) 
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(data.table)
+library(ggplot2)
+library(tidyverse)
+library(DT)
+library(dplyr)
+library(tidyr)
+library(psych)
+library(class)
+options(dplyr.summarise.inform = FALSE)
+rm(list = ls(all = TRUE))
+setwd("/Users/Suguru/Desktop/Econometrics")
+load("Household_Pulse_data_w48.RData")
+```
+
+##Exam Question 1
+```{r, echo=FALSE}
+telwork1_2 <- c(6,12,152,537,272,1439,1667)
+telwork3_4 <- c(3,10,108,395,174,1211,1348)
+telwork5 <- c(12,22,328,1247,617,3205,2905)
+no_telwork <-c(246,551,4285,6977,3518,6637,5861)
+
+df <- data.frame(
+  telwork1_2 = telwork1_2,
+  telwork3_4 = telwork3_4,
+  telwork5 = telwork5,
+  no_telwork = no_telwork)
+rownames(df) <- c("less than hs", "some hs", "HS diploma", "some coll", "assoc deg", "bach deg", "adv deg")
+df
+
+less_college <- df[1:5,]
+above_college <- df[6:7,]
+
+prop_less_college <- prop.table(less_college)
+prop_above_college <-prop.table(above_college)
+
+prop_less_college
+prop_above_college
+
+prop_less_college_telwork <- prop_less_college[,1:3]
+prop_above_collegee_telwork <- prop_above_college[,1:3]
+
+t.test(x = prop_less_college_telwork, y = prop_above_collegee_telwork, paired = F, conf.level = 0.95, alternative = "two.side")
+```
+
+#Exam Question 2
+```{r, echo=FALSE}
+got_vax_cov <- c(17268, 5096, 11950)
+no_vax_cov <- c(2970, 974, 1957)
+
+df2 <- data.frame(
+  got_vax_cov = got_vax_cov,
+  no_vax_cov = no_vax_cov)
+
+rownames(df2) <- c("had Covid", "fully recovered", "Long Covid")
+df2
+
+df2_pro <- prop.table(df2)
+df2_pro
+yes <- df2_pro[1]
+no <- df2_pro[2]
+
+t.test(x = yes, y = no, paired = F, conf.level = 0.95, alternative = "two.side")
+```
+
