@@ -1,0 +1,96 @@
+---
+title: "Homework7"
+author: "Suguru Iwashiro"
+date: "2022-11-03"
+output: html_document
+---
+
+# Homework 7
+Suguru Iwashiro
+
+## 2
+
+My hypothesis is that people who gave higher education level and kids completed vaccine doses more than people who have only high school diploma and don't have kids. As the conclusion, higher education level has positive impact for the result of vaccine status. However, having kids has negative impact for it. 
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(data.table)
+library(ggplot2)
+library(tidyverse)
+library(DT)
+library(dplyr)
+library(tidyr)
+library(psych)
+library(class)
+options(dplyr.summarise.inform = FALSE)
+rm(list = ls(all = TRUE))
+setwd("/Users/Suguru/Desktop/Econometrics")
+load("Household_Pulse_data.RData")
+```
+
+Make a subgroup with people over 22 years old.
+
+```{r}
+pick_use1 <- (Household_Pulse_data$TBIRTH_YEAR < 2000) 
+dat_use1 <- subset(Household_Pulse_data, pick_use1)
+dat_use1$RECVDVACC <- droplevels(dat_use1$RECVDVACC) 
+```
+
+Creating dummy variable for dependent dependent variable. I would like to check what factor impacts the possibility of vaccine status. 
+
+```{r}
+alldose <- ifelse(dat_use1$DOSESRV == "yes got all doses", 1,0)
+summary(dat_use1$DOSESRV)
+```
+
+Run the glm function.
+
+```{r}
+model_logit1 <- glm(alldose ~  + EEDUC + RRACE + ANXIOUS + KIDS_LT5Y + KIDS_5_11Y + KIDS_12_17Y,
+                    family = binomial, data = dat_use1)
+```
+
+Result
+
+```{r, echo=FALSE}
+summary(model_logit1)
+```
+
+Making 2 type of prediction samples.
+
+```{r, echo=FALSE}
+new_data_to_be_predicted1 <- data.frame(TBIRTH_YEAR = 1992,
+                                 EEDUC = factor("HS diploma", levels = levels(dat_use1$EEDUC)),
+                                 RRACE = factor("Other",levels = levels(dat_use1$RRACE)),
+                                 ANXIOUS = factor("nearly every day anxiety",levels = levels(dat_use1$ANXIOUS)),
+                                 KIDS_LT5Y = factor("Yes children under 5 in HH",levels = levels(dat_use1$KIDS_LT5Y)),
+                                 KIDS_5_11Y = factor("Yes children 5 - 11 in HH",levels = levels(dat_use1$KIDS_5_11Y)),
+                                 KIDS_12_17Y = factor("NA", levels = levels(dat_use1$KIDS_12_17Y))
+                                 )
+
+new_data_to_be_predicted2 <- data.frame(TBIRTH_YEAR = 1992,
+                                  EEDUC = factor("adv deg", levels = levels(dat_use1$EEDUC)),
+                                  RRACE = factor("Asian",levels = levels(dat_use1$RRACE)),
+                                  ANXIOUS = factor("several days anxiety over past 2 wks",levels = levels(dat_use1$ANXIOUS)),
+                                  KIDS_LT5Y = factor("NA",levels = levels(dat_use1$KIDS_LT5Y)),
+                                  KIDS_5_11Y = factor("NA",levels = levels(dat_use1$KIDS_5_11Y)),
+                                  KIDS_12_17Y = factor("NA", levels = levels(dat_use1$KIDS_12_17Y))
+                                  )
+``` 
+
+Run the code for predictions.
+```{r, echo=FALSE}
+predict(model_logit1, new_data_to_be_predicted1, type = "response")
+predict(model_logit1, new_data_to_be_predicted2, type = "response")
+``` 
+
+## 3
+
+I am currently looking to buy a property on Long Island, so I am thinking of researching the real estate market and using machine learning to create a projection of housing prices. I have asked several companies and groups to for real estate listing datasets. I will try to pursue the topic if they can provide me the dataset by 11/8 and, if they cannot, I need to go back to my old topic. 
+ 
+Title: [The U.S. Housing Market and the Dynamic Pricing of Housing Duration](https://www-jstor-org.ccny-proxy1.libr.ccny.cuny.edu/stable/pdf/24861824.pdf?refreqid=excelsior%3A6c13cfd7fcc0ecf093a07b507c2f90f8&ab_segments=&origin=&acceptTC=1)
+
+This study examines the ownership duration on the pricing of residential real estate in the United States. In the journal, they use simple linner regression, multiple linner regression, and the general spatial model. They obtained housing information from First American Real Estate Solutions. The demographic information and crime statistics are from the GeoLytics Census CD 2000.
+
+Title: [Liquidating Real Estate Assets Quickly: What Affects the Probability of a Quick Sale?](https://www-jstor-org.ccny-proxy1.libr.ccny.cuny.edu/stable/pdf/24863108.pdf?refreqid=excelsior%3A4d6575378f727320de8d4affeaa44d81&ab_segments=0%2Fbasic_search_gsv2%2Fcontrol&origin=)
+
+This study examines which factors increase the probability of a quick sale. They obtained their data from a multiple listing service (MLS). They used the generalized probit regression to examine these factors. 
