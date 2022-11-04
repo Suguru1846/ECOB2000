@@ -89,7 +89,7 @@ I am currently looking to buy a property on Long Island, so I am thinking of res
  
 Title: [The U.S. Housing Market and the Dynamic Pricing of Housing Duration](https://www-jstor-org.ccny-proxy1.libr.ccny.cuny.edu/stable/pdf/24861824.pdf?refreqid=excelsior%3A6c13cfd7fcc0ecf093a07b507c2f90f8&ab_segments=&origin=&acceptTC=1)
 
-This study examines the ownership duration on the pricing of residential real estate in the United States. In the journal, they use simple linner regression, multiple linner regression, and the general spatial model. They obtained housing information from First American Real Estate Solutions. The demographic information and crime statistics are from the GeoLytics Census CD 2000.
+This study examines how the length of ownership affects the price of residential real estate in the United States. In the journal, they use simple linner regression, multiple linner regression, and the general spatial model. They obtained housing information from First American Real Estate Solutions. The demographic information and crime statistics are from the GeoLytics Census CD 2000.
 
 Title: [Liquidating Real Estate Assets Quickly: What Affects the Probability of a Quick Sale?](https://www-jstor-org.ccny-proxy1.libr.ccny.cuny.edu/stable/pdf/24863108.pdf?refreqid=excelsior%3A4d6575378f727320de8d4affeaa44d81&ab_segments=0%2Fbasic_search_gsv2%2Fcontrol&origin=)
 
